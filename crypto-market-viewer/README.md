@@ -324,58 +324,33 @@ npm run cypress:open
    - FRの履歴表示
    - データのCSVエクスポート
 
+## 開発プロンプト
 
-   
-import 'package:flame/game.dart';
-import 'package:flame/components.dart';
-import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
+このアプリケーションは以下のプロンプトに基づいて開発されました：
 
-void main() {
-  runApp(GameWidget(game: MergeGame()));
-}
+```
+仮想通貨のミームコインの需給の強さを見るためのWebアプリを作ってください。
 
-class MergeGame extends FlameGame with TapDetector {
-  final List<MergeItem> items = [];
-  final int gridSize = 4; // 4x4 のマス目
+需給の強さは先物と現物の価格差とFRで表すものとします。
 
-  @override
-  Future<void> onLoad() async {
-    for (int i = 0; i < 5; i++) {
-      addItem();
-    }
-  }
+現物と先物の価格は以下の取引所の価格を参考にします。
 
-  void addItem({Vector2? position}) {
-    final newItem = MergeItem(position ?? getRandomPosition());
-    items.add(newItem);
-    add(newItem);
-  }
+- Bybit現物
+- Bybit先物
+- Binnance現物
+- Binance先物
+- Bitget現物
+- bitget先物
+- Upbit現物
+- Upbit先物
 
-  Vector2 getRandomPosition() {
-    final double x = (size.x / gridSize) * (items.length % gridSize);
-    final double y = (size.y / gridSize) * (items.length ~/ gridSize);
-    return Vector2(x, y);
-  }
-}
+※取引所に上場していない場合はAerodromeやUniswapのDEX価格を表示
 
-class MergeItem extends SpriteComponent with HasGameRef<MergeGame>, Tappable {
-  int level = 1;
+現物価格、先物価格、価格差、先物のFRをいつのレコードとして、いくつかのミームコインを並べて、ミームコインの需給を一覧で画面に表示させてほしいです。
 
-  MergeItem(Vector2 position)
-      : super(
-          size: Vector2.all(50),
-          position: position,
-        );
+価格の更新は1秒または5秒、パフォーマンスが悪くなってしまう場合は10秒でも問題ありません。
 
-  @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('item1.png');
-  }
+ゆくゆくは、表示させるミームコインを選択できるようにしたいですが、今回はプロトタイプとしてXRP、DOGE、AIXBTを表示させてください。
+```
 
-  @override
-  bool onTapDown(TapDownInfo info) {
-    gameRef.addItem(position: position + Vector2(10, 10)); // 新しいアイテムを追加
-    return true;
-  }
-}
+このプロンプトに基づき、React、TypeScript、Material-UIを使用して、複数の取引所から仮想通貨の価格データを取得し、需給状況をリアルタイムで表示するWebアプリケーションを開発しました。
